@@ -1,33 +1,45 @@
 <template>
   <div id="app">
-    <router-view/>
-
+    <!-- 搜索 -->
+    <search></search>
+    <!-- 列表 -->
+    <list-music></list-music>
     <!-- 音乐播放页面 -->
     <play-music></play-music>
     <!-- 底部状态组件 -->
-    <buttom-music></buttom-music>
+    <bottom-music></bottom-music>
   </div>
 </template>
 
 <script>
-import buttomMusic from "./components/buttomMusic/buttomMusic.vue"
+import bottomMusic from "./components/bottomMusic/bottomMusic.vue"
 import playMusic from "./components/playMusic/playMusic.vue"
+import search from "./components/search/search.vue"
+import listMusic from "./components/listMusic/listMusic.vue"
 export default {
   name: 'App',
   components:{
-    buttomMusic,
-    playMusic
+    bottomMusic,
+    playMusic,
+    search,
+    listMusic
+  },
+  mounted(){
+       
+      
   }
+
+ 
 }
 </script>
-
+  
 <style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
 }
 </style>

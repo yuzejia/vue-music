@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
+import 'vue2-animate/dist/vue2-animate.min.css';
 Vue.use(MuseUI)
 Vue.config.productionTip = false
 

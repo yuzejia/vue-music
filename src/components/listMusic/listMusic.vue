@@ -12,7 +12,7 @@ export default {
   data () {
     return {
       num:"125032",
-      listData:null,
+     
       obj:{
         city : "深圳",
         positionName:"前端开发",
@@ -22,15 +22,29 @@ export default {
   },
   methods:{
     itemBtn:function(hash){
-        console.log(hash)
+      let that = this
+         this.$store.dispatch('get_song_info',hash)   // 获取
+         .then((res)=>{
+           that.$store.dispatch({
+             type:"set_Playhash",
+             audio:res.data.data
+           })
+         })
         this.$store.commit("playshow")
+        console.log(this.$store.state.audio.audio)
+    }
+  },
+  computed:{
+    listData(){
+     return this.$store.getters.getDatas
     }
   },
   mounted(){
+    let that = this
     console.log(this.$store.state.audio.palyshow)
       this.$store.dispatch('get_songs')
     .then((res) => {
-        this.listData = res.data.data
+        this.$store.dispatch('set_datas', res.data.data)
       })
   }
 }

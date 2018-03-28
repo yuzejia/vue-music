@@ -1,8 +1,8 @@
 <template>
 <div class="search">
    <mu-appbar title="">
-  <mu-text-field  class="appbar-search-field"  slot="right" hintText="请输入歌手"/>
-  <mu-flat-button color="white" label="搜索" slot="right"/>
+  <mu-text-field  class="appbar-search-field" v-model='inputName'  slot="right" hintText="请输入歌手"/>
+  <mu-flat-button @click="searchBtn" color="white" label="搜索" slot="right"/>
 </mu-appbar>
 </div>
 
@@ -13,6 +13,16 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+      inputName:""
+    }
+  },
+  methods:{
+    searchBtn:function(){
+       this.$store.dispatch('get_music_search',this.inputName)
+       .then((res)=>{
+           this.$store.dispatch('set_datas', res.data.data.info)
+       }) 
+    
     }
   }
 }

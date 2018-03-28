@@ -8,6 +8,7 @@
     <play-music></play-music>
     <!-- 底部状态组件 -->
     <bottom-music></bottom-music>
+    <audio ref="audio" :src="audioSrc"></audio>
   </div>
 </template>
 
@@ -25,8 +26,17 @@ export default {
     listMusic
   },
   mounted(){
-       
+        console.log(this.$refs.audio)
+   this.$store.dispatch('set_AudioElement', this.$refs.audio)
       
+  },
+  computed:{
+    audioSrc(){
+      return this.$store.getters.getAudio.url
+    }
+  },
+  created(){
+   
   }
 
  

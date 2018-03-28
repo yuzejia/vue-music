@@ -30,10 +30,18 @@ export default{
          get_plist_songs({}, obj){
             return api_get(API.new_plist_songs)(obj)
         },
-        
-        // 获取招聘
+        // 获取歌手信息
         get_job_list({}, obj){
             return api_get(API.new_job_list)(obj)
+        },
+         // 获取歌手信息
+         get_song_info({}, obj){
+            return api_get(API.new_song_info)(obj)
+        },
+        
+        // sousuo
+        get_music_search({}, obj){
+            return api_get(API.new_music_search)(obj)
         },
        
     }

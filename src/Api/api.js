@@ -12,17 +12,19 @@
    }
     
  }
+
+ const localhost = "http://localhost:3001/api/"
 export default {
     // 获取最新歌曲
     new_songs: {
-      url: 'http://localhost:3001/api/new_songs',
+      url: localhost+'new_songs',
       data:()=> {
         return ""
       }
     },
     // 获取 歌曲排行
     new_plist_songs: {
-      url: 'http://localhost:3001/api/plist_songs/',
+      url: localhost+'plist_songs/',
       data:(obj)=> {
         return obj_string(obj)
         }
@@ -30,7 +32,21 @@ export default {
 
     // 获取 招聘信息
     new_job_list: {
-      url: 'http://localhost:3001/api/job_list/',
+      url: localhost+'job_list/',
+      data:(obj)=> {
+        return obj_string(obj)
+        }
+    },
+    // 获取歌手信息
+    new_song_info: {
+      url: localhost+'song_info/',
+      data:(obj)=> {
+        return obj_string(obj)
+        }
+    },
+    // 搜索歌曲
+    new_music_search: {
+    url: localhost+'music_search/',
       data:(obj)=> {
         return obj_string(obj)
         }

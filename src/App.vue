@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <alert></alert>
     <!-- 搜索 -->
     <search></search>
     <!-- 列表 -->
@@ -19,6 +20,7 @@ import playMusic from "./components/playMusic/playMusic.vue"
 import search from "./components/search/search.vue"
 import listMusic from "./components/listMusic/listMusic.vue"
 import rankingList from "./components/RankingList/RankingList.vue"
+import alert from "./components/alert/alert.vue"
 export default {
   name: 'App',
   components:{
@@ -26,7 +28,8 @@ export default {
     playMusic,
     search,
     listMusic,
-    rankingList
+    rankingList,
+    alert
   },
   mounted(){
   console.log(this.$refs.audio)

@@ -44,12 +44,27 @@ export default {
   },
   computed:{
     listData(){
-     return this.$store.getters.getDatas
+           return this.$store.getters.getDatas
+    }
+    
+  },
+  watch:{
+    listData:function(e){
+      console.log(e.length)
+      var that = this
+      if(e.length== 0){
+         this.$store.dispatch('set_alertMess',"未搜索到内容...")
+           setTimeout(()=>{
+           that.$store.dispatch('set_alertShow',false)
+           },2000)
+        }else{
+       this.$store.dispatch('set_alertShow',false)
+        }
     }
   },
   mounted(){
     let that = this
-    console.log(this.$store.state.audio.palyshow)
+    console.log(this.$store.getters.getDatas)
       this.$store.dispatch('get_songs')
     .then((res) => {
         this.$store.dispatch('set_datas', res.data.data)
@@ -61,7 +76,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus">
 .mu-list
-  margin 55px 0
+  margin-top 200px
   div
     border-bottom 1px solid #eee
   .mu-item-content

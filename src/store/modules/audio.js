@@ -18,7 +18,10 @@ const audioInfo = {
 		// 搜索 词
 		inputName:"",
 		// 播放页面显示
-		palyshow:false
+		palyshow:false,
+		// alert提示
+		alertShow:false,
+		alertMess:""
     },
     //可以认为是 store 的计算属性
 	getters:{
@@ -38,6 +41,10 @@ const audioInfo = {
 		getDatas: state => state.datas,
 		// 获取 歌曲歌词
 		getSongLrc: state => state.song_lrc,
+		// 获取 alert 状态
+		getAlertShow: state => state.alertShow,
+		// 获取 alert 信息
+		getAlertMess: state => state.alertMess,
 		
 	},
     /*
@@ -49,6 +56,15 @@ const audioInfo = {
 
 
 	mutations: {
+		//alertShow
+			alertShow (state,type) {
+			state.alertShow = type
+		  },
+		  //alertShow
+		  alertMess (state,type) {
+			  console.log(type)
+			state.alertMess = type
+		  },
 		// 播放设置
 		play (state) {
 			console.log(34546456547)
@@ -163,6 +179,12 @@ const audioInfo = {
 		},
 		set_song_Lrc ({commit}, ele) {
 			commit('setSong_Lrc', ele)
+		},
+		set_alertShow ({commit}, ele) {
+			commit('alertShow', ele)
+		},
+		set_alertMess ({commit}, ele) {
+			commit('alertMess', ele)
 		},
 	}
 	

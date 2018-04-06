@@ -32,15 +32,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus">
 .bottomMusic
-  position fixed
-  bottom 0
-  height 50px
-  line-height 40px
-  width 100%
-  padding 5px 20px
-  box-sizing border-box
-  background-color #7e57c2
-  color #ffffff
+  position: fixed;
+  bottom: 7px;
+  left: 50%;
+  height: 50px;
+  line-height: 40px;
+  transform: translate(-25px);
+  width: 50px;
+  margin: 0 auto;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #7e57c2;
+  color: #fff;
+  box-shadow: 1px 1px 30px #9e9a9a;
   span
     float right 
   img

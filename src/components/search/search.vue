@@ -17,19 +17,32 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      inputName:""
+      inputName:"",
+      inputA:""
     }
   },
   methods:{
     searchBtn:function(){
-       this.$store.dispatch('set_datas', [])
-       this.$store.dispatch('set_alertMess',"正在加载...")
-       this.$store.dispatch('set_alertShow',true)
-       
-       this.$store.dispatch('get_music_search',this.inputName)
-       .then((res)=>{
+      var that = this
+      
+     if(this.inputA == this.inputName){
+       this.$store.commit( "alertType",{mess:"已为你搜索到",show:false,time:2000,})
+     }else{
+       if(this.inputName == ""){
+        this.$store.commit( "alertType",{mess:"请输入...",show:false,time:2000,})
+       }else{
+        this.inputA = this.inputName
+        console.log("开始搜索")
+        this.$store.dispatch('set_datas', ["",])
+        this.$store.commit("alertType",{mess:"正在搜索‘"+this.inputName+"’相关歌曲...",show:true, time:1000,})
+        this.$store.dispatch('get_music_search',this.inputName)
+        .then((res)=>{
            this.$store.dispatch('set_datas', res.data.data.info)
-       }) 
+        }) 
+       }
+     }
+
+     
     
     }
   }

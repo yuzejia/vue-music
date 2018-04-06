@@ -64,7 +64,14 @@ export default {
       data:(obj)=> {
         return obj_string(obj)
         }
-    }
+    },
+    // 搜索排行榜下的列表
+    new_rank_list_info: {
+      url: localhost+'rank_list_info/',
+        data:(obj)=> {
+          return obj_string(obj)
+          }
+      }
 
   }
   

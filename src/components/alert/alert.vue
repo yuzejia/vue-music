@@ -1,5 +1,5 @@
 <template>
- <div v-if="alertShow" class="alertA">
+ <div v-if="alertShow" class="alertA animated bounceInDown">
      <span>{{alertMess}}</span>
  </div>
 </template>

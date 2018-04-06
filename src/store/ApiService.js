@@ -50,6 +50,10 @@ export default{
         get_music_search({}, obj){
             return api_get(API.new_music_search)(obj)
         },
+        // 排行榜下的列表
+        get_rank_list_info({}, obj){
+            return api_get(API.new_rank_list_info)(obj)
+        },
        
     }
 }

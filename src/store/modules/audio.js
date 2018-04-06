@@ -60,9 +60,15 @@ const audioInfo = {
 			alertShow (state,type) {
 			state.alertShow = type
 		  },
+		  alertType (state,type) {
+			state.alertMess = type.mess
+			state.alertShow = true
+			setTimeout(()=>{
+				state.alertShow = type.show
+				},type.time)
+		  },
 		  //alertShow
 		  alertMess (state,type) {
-			  console.log(type)
 			state.alertMess = type
 		  },
 		// 播放设置
@@ -121,7 +127,6 @@ const audioInfo = {
 		},
 		// 设置 datas
 		setDatas (state, data) {
-			console.log(data)
 			state.datas = data
 		},
 		// 设置 歌词

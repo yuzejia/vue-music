@@ -30,7 +30,15 @@ export default {
   },
   methods:{
       openItem:function(id){
-          console.log(id)
+          this.$store.commit("alertType",{mess:"正在搜索相关歌曲...",show:true, time:1000,})
+        this.$store.dispatch('get_rank_list_info',id)   // 获取歌曲
+        .then((res)=>{
+            console.log(res)
+            this.$store.dispatch('set_datas', res.data.data.songs.list)
+        })
+        .catch((err)=>{
+            this.$store.commit("alertType",{mess:"网络错误，加载失败...",show:false, time:2500,})
+        })
       },
         Swiper:function (){
             var mySwiper = new Swiper('.swiper-container', {
@@ -74,9 +82,7 @@ export default {
 .content
     margin-top:45 px
     background-color #fff
-    position: fixed
-    top: 0
-    left: 0
+
     width: 100%
     z-index: 1
     box-shadow: 0px 5px 10px #e9e6ec;

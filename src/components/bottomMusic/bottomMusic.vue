@@ -1,7 +1,7 @@
 <template>
  <div @click="itemBtn" class="bottomMusic">
-   <img src="" alt="">
-   <span>名称</span>
+   <img :src="imgUrl" alt="">
+   <span v-text="audioName"></span>
  </div>
 </template>
 
@@ -17,6 +17,14 @@ export default {
     itemBtn:function(){
       this.$store.commit("playshow")
     }
+  },
+  computed:{
+    imgUrl(){
+      return this.$store.getters.getAudio.imgUrl
+    },
+    audioName(){
+     return this.$store.getters.getAudio.songName
+    }
   }
 }
 </script>
@@ -26,12 +34,16 @@ export default {
 .bottomMusic
   position fixed
   bottom 0
-  height 40px
+  height 50px
   line-height 40px
   width 100%
-  padding 0 20px
+  padding 5px 20px
   box-sizing border-box
   background-color #7e57c2
+  color #ffffff
   span
     float right 
+  img
+    height 100%
+    border-radius 50%
 </style>

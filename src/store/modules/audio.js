@@ -1,7 +1,11 @@
+import API from '../../Api/api'
 // 测面滑动菜单效果
 const audioInfo = {
 	state: {
+		// 当前歌曲坐标
+		index:null,
 		datas:[],
+		song_lrc:[],
 		// audio元素
 		audioelement: '',
 		hash:"",
@@ -9,6 +13,7 @@ const audioInfo = {
 		audio: {
 			url:"",
 			imgUrl:""
+			
 		},
 		// 搜索 词
 		inputName:"",
@@ -19,6 +24,8 @@ const audioInfo = {
 	getters:{
 		// 获取audio元素
 		getAudioElement: state => state.audioelement,
+		// 获取audio元素
+		getIndex: state => state.index,
 		// 获取歌曲页显示状态
 		getPalyshowl: state => state.palyshow,
 
@@ -29,6 +36,9 @@ const audioInfo = {
 		getInputName: state => state.inputName,
 		// 获取 歌曲列表
 		getDatas: state => state.datas,
+		// 获取 歌曲歌词
+		getSongLrc: state => state.song_lrc,
+		
 	},
     /*
     更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。
@@ -58,11 +68,24 @@ const audioInfo = {
 		  setPlayMusic (state, type) {
 			state.palyshow = type.isShow
 		},
-		// 获取 hash
+		// 设置 hash
 		setPlayhash(state, type){
 			state.hash = type.hash
 		},
-		// 获取歌曲信息
+		setIndex(state, index){
+			console.log(index)
+			state.index = index
+		},
+		setIndexCom(state, type){
+			console.log(type)
+			if(type){
+				state.index == state.datas.length-1? [console.log("最后一首") ]: state.index++ ;
+				
+			}else{
+				state.index<=0? [ console.log("第一首")]: state.index-- ;
+			}
+		},
+		// 设置歌曲信息
 		setPlayaudio(state, type){
 			state.audio = type.audio
 
@@ -71,7 +94,7 @@ const audioInfo = {
       		state.audio.imgUrl = result
 		
 		},
-		// 获取 Audio Dom
+		// 设置 Audio Dom
 		setAudioElement (state, ele) {
 			state.audioelement = ele
 			console.log(ele)
@@ -84,6 +107,24 @@ const audioInfo = {
 		setDatas (state, data) {
 			console.log(data)
 			state.datas = data
+		},
+		// 设置 歌词
+		setSong_Lrc (state, data) {
+			let lrcS = []
+			let LyricN = data.lrc.split(/\n/)
+				for(let i in LyricN){
+				var str = LyricN[i];
+				let re = /\d{2}:\d{2}\.\d{2}/g;  //00:00:00
+				let re2 = /\[\d{2}:\d{2}\.\d{2}\]/g;  //[00:00:00]
+				let strA = str.match(re)
+				if(strA instanceof Array){
+					 var arr = strA[0].split(':') 
+					 strA[0] = (parseFloat(arr[0]*60)+parseFloat(arr[1])).toFixed(2)
+					 strA.text =  str.replace(re2,'')
+					 lrcS.push(strA)
+				}
+				}
+				state.song_lrc = lrcS
 		},
 
 		getHttp (state) {
@@ -119,6 +160,9 @@ const audioInfo = {
 		},
 		set_datas ({commit}, ele) {
 			commit('setDatas', ele)
+		},
+		set_song_Lrc ({commit}, ele) {
+			commit('setSong_Lrc', ele)
 		},
 	}
 	

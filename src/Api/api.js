@@ -13,7 +13,7 @@
     
  }
 
- const localhost = "http://localhost:3001/api/"
+ const localhost = "http://192.168.0.110:3001/api/"
 export default {
     // 获取最新歌曲
     new_songs: {
@@ -22,6 +22,13 @@ export default {
         return ""
       }
     },
+    // 获取 音乐排行榜
+    new_rank_list: {
+      url: localhost+'rank_list',
+      data:()=> {
+        return ""
+        }
+      },
     // 获取 歌曲排行
     new_plist_songs: {
       url: localhost+'plist_songs/',
@@ -40,6 +47,13 @@ export default {
     // 获取歌手信息
     new_song_info: {
       url: localhost+'song_info/',
+      data:(obj)=> {
+        return obj_string(obj)
+        }
+    },
+    // 获取歌词
+    new_song_lrc: {
+      url: localhost+'song_lrc/',
       data:(obj)=> {
         return obj_string(obj)
         }

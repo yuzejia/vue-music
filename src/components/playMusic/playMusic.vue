@@ -1,48 +1,35 @@
 <template>
- <div v-show="palyshow" name="bounce"
-  enter-active-class="bounceInLeft"
-  leave-active-class="bounceOutRight">
-   <div class="playContent">
-    
-  <div class="musicDetails">
-   <img v-show="!audioImg_lar" class="backImg animated pulse" :src="imgUrl">
-     <!-- <div   class="displayBack"><img height="100%" src="/static/img/return.png" alt=""></div> -->
-      <div @click="set_PlayMusic">关闭</div>
- 	<h1 class="title">{{datas.songName}}</h1>
- 	<div @click='audio_img_btn' class="audioCon">
-    <div v-show="audioImg_lar" class="animated pulse">
-      <div class="audio_img circling" :class="rotate">
-        <img style="width:100%;height:100%" :src="imgUrl">
+    <div v-show="palyshow" class="playContent animated " :class="{'bounceInUp':palyshow==true,'fadeOutDown':palyshow==false}" >
+      <div class="musicDetails">
+        <img v-show="!audioImg_lar" class="backImg animated pulse" :src="imgUrl">
+        <div @click="set_PlayMusic">关闭</div>
+        <h1 class="title">{{datas.songName}}</h1>
+        <div @click='audio_img_btn' class="audioCon">
+        <div v-show="audioImg_lar" class="animated pulse">
+          <div class="audio_img circling" :class="rotate">
+              <img style="width:100%;height:100%" :src="imgUrl">
+            </div>
+                <p class="lyricShow">{{lyricShow}}</p>
+            </div>
+            <div :style="{'margin-top':marTop + 'px'}" v-show="!audioImg_lar" class="animated pulse">
+              <p :class="{ 'class_a': index ==larIndex}" :data='index' v-for='(lar, index) in lrcArray'>{{lar.text}}</p>
+            </div>
+          </div>
+ 		      <audio class="audioEl" ref='myAudio' preload="preload"   ></audio>
+          <div class="play">
+            <span class="playL floatLeft" @click="getMusic(false)">上一曲</span>
+              <span @click='ready'>
+                <img ref='myImg' :src="play">
+              </span>
+            <span class="playL floatRight" @click="getMusic(true)">下一曲</span>
+          </div>
+          <div class="audioSpeed">
+            <span class="floatLeft">{{value2}} </span>
+            <span class="floatRight">{{audioMEss.duration}} </span>
+            <mu-slider @change="audioSpeed" v-model="value1" class="demo-slider"/>
+          </div>
+        </div>
       </div>
-      <p class="lyricShow">{{lyricShow}}</p>
-
-    </div>
-    <div :style="{'margin-top':marTop + 'px'}" v-show="!audioImg_lar" class="animated pulse">
-        <p :class="{ 'class_a': index ==larIndex}" :data='index' v-for='(lar, index) in Lyric'>{{lar.text}}</p>
-    </div>
-
- 	</div>
-
-
- 	<!-- @canplay="ready" @error="error" @timeupdate="updateTime" @ended="end" -->
- 		<audio class="audioEl" ref='myAudio' preload="preload"   ></audio>
-
- 		<div class="play">
-       <span class="playL floatLeft" @click="getMusic(false)">上一曲</span>
- 				<span @click='ready'>
- 					<img ref='myImg' :src="play">
- 				</span>
-         <span class="playL floatRight" @click="getMusic(true)">下一曲</span>
- 		</div>
-  <div class="audioSpeed">
-    <span class="floatLeft">{{value2}} </span>
-    <span class="floatRight">{{audioMEss.duration}} </span>
-    <mu-slider @change="audioSpeed" v-model="value1" class="demo-slider"/>
-    
-  </div>
- </div>
-   </div>
-   </div>
 </template>
 
 <script>
@@ -50,7 +37,7 @@ export default {
   name: 'palyMusic',
   data () {
     return {
-       musicObj:null,  // hash 数组
+      musicObj:null,  // hash 数组
       indexNum:0,
       HttpLocalhost:null,
       elAudio:null,
@@ -63,7 +50,7 @@ export default {
         startTime:'',                                                           // 播放的时长
       },
       // 歌曲详情
-    	datas:'',
+    	// datas:'',
     	currentSong:{
     		url:''
     	},
@@ -75,8 +62,6 @@ export default {
       lyricShow:'', //显示的歌词
       value1: 0, // //播放进度
       value2:'00:00',
-
-
         hour:0 ,
         minute:0 ,
         second:0,         //时 分 秒
@@ -123,24 +108,21 @@ export default {
     playS:function(){
           console.log('开始播放'),
           this.play = this.playTypeUrl[1],
-          this.elAudio.play(),
+         this.$store.commit("play"),
           this.rotate = 'rotate'
     },
     // 暂停执行操作
     pauseS:function(){
           console.log('播放暂停'),
           this.play = this.playTypeUrl[0],
-          this.elAudio.pause(),
+          this.$store.commit("pause")
           this.rotate = 'null'
     },
     // 开始播放
   	ready:function(e){
-      this.$store.getters.getAudioElement.paused == true?[this.$store.commit("play")]:[this.$store.commit("pause")];
-
-
-
+       this.$store.getters.getAudioElement.paused == true?[this.playS()]:[this.pauseS()];
       var that = this
-       this.elAudio.addEventListener("timeupdate",function(){
+       this.$store.getters.getAudioElement.addEventListener("timeupdate",function(){
         that.value1 = (this.currentTime/this.duration)*100
         that.value2 = that.commonTime(this.currentTime)
         that.audioMEss.duration = that.commonTime(this.duration) //音频总长
@@ -158,105 +140,53 @@ export default {
           })
       });
     //  that.elAudio.addEventListener("timeupdate",this.timeupdate(e),false);
-      that.elAudio.paused == true?[this.playS()]:[this.pauseS()];
+     
   	},
     // 滑动时间
     audioSpeed:function(e) {
       let that = this
       that.value1 = e
-      that.elAudio.currentTime = (e/100)*that.elAudio.duration
+      this.$store.getters.getAudioElement.currentTime = (e/100)*this.$store.getters.getAudioElement.duration
 
     },
 
     // 上下曲切换
     getMusic:function(e){
-      console.log("qiehuan ")
-      let that = this
-      let hashIndex = that.musicObj.hashData
-      that.elAudio.removeEventListener("timeupdate",function(){
-        return
-      },true);
-      if(e == true){
-          that.musicObj.index++
-          console.log(that.musicObj.index)
-          if(that.musicObj.index> hashIndex.length-1){
-            that.musicObj.index = hashIndex.length-1
-          }else{
-              that.init()
-              that.gethttpMusic(hashIndex[that.musicObj.index])
-          }
-      }else{
-          that.musicObj.index--
-          if(that.musicObj.index < 0){
-            that.musicObj.index = 0
-          }else{
-              that.init()
-              that.gethttpMusic(hashIndex[that.musicObj.index])
-          }
-         
-      }
+      this.$store.commit("setIndexCom",e)
+      this.gethttpMusic(this.$store.getters.getDatas[this.$store.getters.getIndex].hash)
+    
     },
     // 下一曲切换 http 请求
     gethttpMusic:function(hash){
-      let that = this
-       this.$store.dispatch('get_song_info',hash)   // 获取
-      .then(function(res){
-              console.log(res)
-              that.datas = res.data.data
-              let imgurl = res.data.data.imgUrl;
-              let subStr=new RegExp('{size}');//创建正则表达式对象
-      			  let result=imgurl.replace(subStr,"200");//把'is'替换为空字符串
-      			  that.datas.imgUrl = result
-              that.$store.state.music.musicObj = result
-              console.log(that.$store.state.music)
+      this.init()
+       let that = this
+         this.$store.dispatch('get_song_info',hash)   // 获取歌曲
+         .then((res)=>{
+           that.$store.dispatch({
+             type:"set_Playhash",
+             audio:res.data.data
+           })
+         }),
 
-            })
-      .catch(function(err){
-             console.log(err);
-      })
-
-       this.$store.dispatch('get_song_info',hash)  
-      .then((res)=>{
-        let LyricN = res.data.data.split(/\n/)
-        for(let i in LyricN){
-          var str = LyricN[i];
-          let re = /\d{2}:\d{2}\.\d{2}/g;  //00:00:00
-          let re2 = /\[\d{2}:\d{2}\.\d{2}\]/g;  //[00:00:00]
-          let strA = str.match(re)
-          let arr = strA[0].split(':')
-          strA[0] = (parseFloat(arr[0]*60)+parseFloat(arr[1])).toFixed(2)
-          strA.text =  str.replace(re2,'')
-          that.Lyric.push(strA)
-        }
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+          this.$store.dispatch('get_song_lrc',hash)   // 获取歌曲
+         .then((res)=>{
+         that.$store.dispatch({
+             type:"set_song_Lrc",
+             lrc:res.data.data
+           })
+         })
     }
   },
   mounted(){
-      let that = this
-      let hash = this.$store.getters.gethash
-      
-      this.musicObj = this.childMusic
-      // this.gethttpMusic(hash)
 
-      
-      this.elAudio = this.$refs.myAudio
-      let duration = this.elAudio.duration //音频总长
-      //  elAudio.paused 媒体播放状态
-      console.log(duration)
-
-      this.$el.addEventListener('touchmove',function(event){
-         event.preventDefault();
-      }
-       , false)
+    
   },
   watch:{
     // 监听歌词移动
     larIndex(e){
-      if(e >5){
-          this.marTop = -21*(e-4)
+      console.log(e)
+      if(e >4){
+          this.marTop = -21*(e-3)
       }
 
     }
@@ -265,15 +195,27 @@ export default {
   },
   computed:{
     palyshow () {
-				return this.$store.getters.getPalyshowl
+        return this.$store.getters.getPalyshowl
       },
     imgUrl(){
       return this.$store.getters.getAudio.imgUrl
+    },
+    lrcArray(){
+      this.Lyric = this.$store.getters.getSongLrc
+         return  this.$store.getters.getSongLrc
+    },
+    datas:{
+      get:function () {
+       return this.$store.getters.getAudio
+      },
+      set:function () {
+          this.datas = this.$store.getters.getAudio
+      }
     }
  
   },
   created:function(){
-      console.log(this.$store.getters.gethash)
+     
   }
 }
 </script>
@@ -317,6 +259,7 @@ export default {
     height: 100%;
     background: #2f2331;
     z-index: 4
+    color #fff
 }
 .title{
 	  text-align: center;

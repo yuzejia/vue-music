@@ -3,6 +3,7 @@
     <!-- 搜索 -->
     <search></search>
     <!-- 列表 -->
+    <ranking-list></ranking-list>
     <list-music></list-music>
     <!-- 音乐播放页面 -->
     <play-music></play-music>
@@ -17,16 +18,18 @@ import bottomMusic from "./components/bottomMusic/bottomMusic.vue"
 import playMusic from "./components/playMusic/playMusic.vue"
 import search from "./components/search/search.vue"
 import listMusic from "./components/listMusic/listMusic.vue"
+import rankingList from "./components/RankingList/RankingList.vue"
 export default {
   name: 'App',
   components:{
     bottomMusic,
     playMusic,
     search,
-    listMusic
+    listMusic,
+    rankingList
   },
   mounted(){
-        console.log(this.$refs.audio)
+  console.log(this.$refs.audio)
    this.$store.dispatch('set_AudioElement', this.$refs.audio)
       
   },

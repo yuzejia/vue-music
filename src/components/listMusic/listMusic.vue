@@ -1,6 +1,6 @@
 <template>
    <mu-list>
-    <mu-list-item @click="itemBtn(item.hash)"  v-for="item in listData" :title="item.filename">
+    <mu-list-item @click="itemBtn(item.hash,index)"  v-for="(item,index) in listData" :title="item.filename">
        <mu-icon slot="right" value=""/>
     </mu-list-item>
   </mu-list>
@@ -21,17 +21,25 @@ export default {
     }
   },
   methods:{
-    itemBtn:function(hash){
+    itemBtn:function(hash,index){
       let that = this
-         this.$store.dispatch('get_song_info',hash)   // 获取
+         this.$store.dispatch('get_song_info',hash)   // 获取歌曲
          .then((res)=>{
            that.$store.dispatch({
              type:"set_Playhash",
              audio:res.data.data
            })
+         }),
+
+          this.$store.dispatch('get_song_lrc',hash)   // 获取歌曲
+         .then((res)=>{
+         that.$store.dispatch({
+             type:"set_song_Lrc",
+             lrc:res.data.data
+           })
          })
         this.$store.commit("playshow")
-        console.log(this.$store.state.audio.audio)
+        this.$store.commit("setIndex",index)
     }
   },
   computed:{

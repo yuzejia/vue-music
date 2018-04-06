@@ -6,8 +6,12 @@ import router from './router'
 import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
-import 'vue2-animate/dist/vue2-animate.min.css';
-Vue.use(MuseUI)
+import vueg from "vueg"
+import 'vueg/css/transition-min.css'
+
+import '../node_modules/swiper/dist/css/swiper.min.css'
+import 'swiper'
+Vue.use(MuseUI,vueg)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,5 +1,5 @@
 <template>
-    <div v-show="palyshow" class="playContent animated " :class="{'bounceInUp':palyshow==true,'fadeOutDown':palyshow==false}" >
+    <div v-show="palyshow"  class="playContent animated bounceInUp" :class="{'bounceInUp':palyshow==true,'fadeOutDown':palyshows==false}" >
       <div class="musicDetails">
         <img v-show="!audioImg_lar" class="backImg animated pulse" :src="imgUrl">
         <div @click="set_PlayMusic">关闭</div>
@@ -37,6 +37,7 @@ export default {
   name: 'palyMusic',
   data () {
     return {
+      palyshows:true,
       musicObj:null,  // hash 数组
       indexNum:0,
       HttpLocalhost:null,
@@ -73,10 +74,14 @@ export default {
 
     methods: {
     set_PlayMusic:function(){
+      this.palyshows = false
+      setTimeout(()=>{
           this.$store.dispatch({
           type: 'set_PlayMusic',
 					isShow: false
-     })
+      })
+    
+     },2000)
    },
     // 初始化
     init:function(){

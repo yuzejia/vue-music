@@ -8,5 +8,7 @@ vue 实现音乐播放器
 
     const localhost = "http://192.168.0.110:3001/api/"   // 个人例子需要改为自己的ip  src/Api/api.js
 
-
+![Alt text](https://github.com/yuzejia/NewsClient/raw/master/Screenshots/20180406180536.png)
+![Alt text](https://github.com/yuzejia/NewsClient/raw/master/Screenshots/20180406180950.png)
+![Alt text](https://github.com/yuzejia/NewsClient/raw/master/Screenshots/20180406180957.png)
     
